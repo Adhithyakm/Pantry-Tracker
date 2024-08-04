@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-import { Box, Stack, Typography, Button, Modal, TextField,InputAdornment ,Grid} from '@mui/material'
+import { Box, Stack, Typography, Button, Modal, TextField,InputAdornment } from '@mui/material'
 import { firestore } from '../app/firebase'
 import {
   collection,
@@ -11,10 +11,7 @@ import {
   query,
   setDoc,
   deleteDoc,
-  getDoc,
-} from 'firebase/firestore'
-import { getAnalytics, isSupported } from 'firebase/analytics'
-
+  getDoc,} from 'firebase/firestore'
 
 const style = {
   position: 'absolute',
@@ -38,29 +35,8 @@ export default function Home() {
   const [itemName, setItemName] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   //const [highlightedItem, setHighlightedItem] = useState('')
-  const [windowWidth, setWindowWidth] = useState(0);
-
-useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    handleResize(); // Set initial window size
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-
-  // We'll add our component logic here
- useEffect(() => {
-    const initializeFirebaseAnalytics = async () => {
-      const analyticsSupported = await isSupported();
-      if (analyticsSupported) {
-        const analytics = getAnalytics();
-        // Additional analytics setup if needed
-      }
-    };
-    initializeFirebaseAnalytics();
-  }, []);
-
+ // const [windowWidth, setWindowWidth] = useState(0);
+ 
   const updatePantry = async () => {
   const snapshot = query(collection(firestore, 'pantry'))
   const docs = await getDocs(snapshot)
@@ -71,6 +47,11 @@ useEffect(() => {
     setFilteredPantry(pantryList) 
     setPantry(pantryList)
   }
+
+   useEffect(() => {
+  updatePantry();
+  }, []);
+
 
   const addItem = async (item) => {
   const docRef = doc(collection(firestore, 'pantry'), item)
@@ -98,9 +79,12 @@ const removeItem = async (item) => {
   await updatePantry()
 }
   
-  useEffect(() => {
-  updatePantry();
-  }, []);
+  
+
+
+  
+  
+ 
   
   useEffect(() => {
     // Filter pantry items based on search term
@@ -208,9 +192,9 @@ const handleClose = () => setOpen(false)
               justifyContent={'space-between'}
               alignItems={'center'}
               bgcolor={'#00b4d8'}
-              //paddingX={2}
+              paddingX={2}
               borderRadius={1}
-              //marginBottom={2}
+              marginBottom={2}
               
             >
             
