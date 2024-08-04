@@ -1,4 +1,4 @@
-'use client'
+
 
 import { useState, useEffect } from 'react'
 import { Box, Stack, Typography, Button, Modal, TextField,InputAdornment ,Grid} from '@mui/material'
@@ -11,7 +11,7 @@ import {
   setDoc,
   deleteDoc,
   getDoc,} from 'firebase/firestore'
-
+import { getAnalytics, isSupported } from 'firebase/analytics'
 const style = {
   position: 'absolute',
   top: '50%',
