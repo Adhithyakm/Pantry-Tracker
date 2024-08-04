@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
 import { Box, Stack, Typography, Button, Modal, TextField,InputAdornment ,Grid} from '@mui/material'
 import { firestore } from '../app/firebase'
 import {
@@ -12,7 +13,7 @@ import {
   deleteDoc,
   getDoc,
 } from 'firebase/firestore'
-  import { getAnalytics, isSupported } from 'firebase/analytics'
+import { getAnalytics, isSupported } from 'firebase/analytics'
 
 
 const style = {
@@ -36,7 +37,17 @@ export default function Home() {
   const [open, setOpen] = useState(false)
   const [itemName, setItemName] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
-  const [highlightedItem, setHighlightedItem] = useState('')
+  //const [highlightedItem, setHighlightedItem] = useState('')
+  const [windowWidth, setWindowWidth] = useState(0);
+
+useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize(); // Set initial window size
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   // We'll add our component logic here
  useEffect(() => {
@@ -103,17 +114,7 @@ const removeItem = async (item) => {
 const handleOpen = () => setOpen(true)
 const handleClose = () => setOpen(false)
   
-const handleSearch = () => {
-    // Highlight the item if found
-    const itemToHighlight = pantry.find(({ name }) =>
-      name.toLowerCase() === searchTerm.toLowerCase()
-    )
-    if (itemToHighlight) {
-      setHighlightedItem(itemToHighlight.name)
-    } else {
-      setHighlightedItem('') // Clear highlight if not found
-    }
-  }
+
 
 
   
@@ -173,7 +174,7 @@ const handleSearch = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <Button variant="contained" sx={{ color: 'white', bgcolor: '#03045e', '&:hover': { bgcolor: 'darkgreen' }, marginBottom: 1 }} onClick={handleOpen} >
+                <Button variant="contained" sx={{ color: 'white', bgcolor: '#03045e', '&:hover': { bgcolor: 'darkgreen' }, marginBottom: 0 }} onClick={handleOpen} >
         Add New Item
       </Button>
               </InputAdornment>
