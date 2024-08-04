@@ -10,7 +10,10 @@ import {
   query,
   setDoc,
   deleteDoc,
-  getDoc,} from 'firebase/firestore'
+  getDoc,
+} from 'firebase/firestore'
+  import { getAnalytics, isSupported } from 'firebase/analytics'
+
 
 const style = {
   position: 'absolute',
@@ -36,6 +39,16 @@ export default function Home() {
   const [highlightedItem, setHighlightedItem] = useState('')
 
   // We'll add our component logic here
+ useEffect(() => {
+    const initializeFirebaseAnalytics = async () => {
+      const analyticsSupported = await isSupported();
+      if (analyticsSupported) {
+        const analytics = getAnalytics();
+        // Additional analytics setup if needed
+      }
+    };
+    initializeFirebaseAnalytics();
+  }, []);
 
   const updatePantry = async () => {
   const snapshot = query(collection(firestore, 'pantry'))
@@ -160,7 +173,7 @@ const handleSearch = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <Button variant="contained" sx={{ color: 'white', bgcolor: '#03045e', '&:hover': { bgcolor: 'darkgreen' } ,marginBottom: 0 }}  onClick={handleOpen} marginBottom='1'>
+                <Button variant="contained" sx={{ color: 'white', bgcolor: '#03045e', '&:hover': { bgcolor: 'darkgreen' }, marginBottom: 1 }} onClick={handleOpen} >
         Add New Item
       </Button>
               </InputAdornment>
@@ -188,7 +201,7 @@ const handleSearch = () => {
             <Box
               key={name}
               width="100%"
-              Height="80px"
+              height="80px"
               display={'flex'}
               
               justifyContent={'space-between'}
